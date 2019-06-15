@@ -1,18 +1,30 @@
 package com.tiket.messagebroker.springbootkafkamongodb.resource;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tiket.messagebroker.springbootkafkamongodb.model.Airline;
 import com.tiket.messagebroker.springbootkafkamongodb.repository.AirlineRepository;
 
 @RestController
+@RequestMapping("kafka")
 public class AirlineController {
 	
 	@Autowired
 	private AirlineRepository repository;
+	
+	@Autowired
+	private KafkaTemplate<String, Airline> kafkaTemplate;
+	
+	private static final String TOPIC = "Airline_Topic";
 	
 	@PostMapping("/addAirline")
 	public String saveAirline(@RequestBody Airline airline) {
@@ -20,6 +32,18 @@ public class AirlineController {
 		return "Added airline with id : "+ airline.getId();
 	}
 	
+	@GetMapping("/findAllAirlines")
+	public List<Airline> getAirlines(){
+		return repository.findAll();
+	}
 	
+	
+	@GetMapping("/publish/{id}")
+	public String post(@PathVariable("id") final int id, @RequestBody Airline airline) {
+		kafkaTemplate.send(TOPIC, new Airline(id,airline.getCode() , airline.getName(), airline.getStatus()));
+		
+		return "Published Successfully";
+	}
+
 
 }
