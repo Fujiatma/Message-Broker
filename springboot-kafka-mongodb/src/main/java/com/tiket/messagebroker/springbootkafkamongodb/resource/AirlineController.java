@@ -38,9 +38,9 @@ public class AirlineController {
 	}
 	
 	
-	@GetMapping("/publish/{id}")
-	public String post(@PathVariable("id") final int id, @RequestBody Airline airline) {
-		kafkaTemplate.send(TOPIC, new Airline(id,airline.getCode() , airline.getName(), airline.getStatus()));
+	@PostMapping("/publish/airline")
+	public String post(@RequestBody Airline airlinePost) {
+		kafkaTemplate.send(TOPIC, airlinePost);
 		
 		return "Published Successfully";
 	}
