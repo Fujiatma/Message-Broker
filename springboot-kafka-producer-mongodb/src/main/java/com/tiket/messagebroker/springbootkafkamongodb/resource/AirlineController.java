@@ -51,11 +51,12 @@ public class AirlineController {
 //	}
 	
 	
-	//manually HARDCODE
-	@GetMapping("/publish/{id}")
+	//manually HARDCODE to publish object to Kafka Server
+	@PostMapping("/publish/{id}")
 	public String post(@PathVariable("id") final int id) {
-		 
-		kafkaTemplate.send(TOPIC, new Airline(id, "AR-SR123", "Susi Air", "Inactive"));
+		 //new Airline(id, "AR-SR123", "Susi Air", "Inactive")
+		kafkaTemplate.send(TOPIC, repository.findById(id));
+		
 		return "Published Successfully"; 
 	}
 	

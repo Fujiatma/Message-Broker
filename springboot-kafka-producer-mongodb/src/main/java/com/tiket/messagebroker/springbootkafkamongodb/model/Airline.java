@@ -63,6 +63,14 @@ public class Airline {
 	public Airline() {
 
 	}
+
+	@Override
+	public String toString() {
+		return "Airline [id=" + id + ", code=" + code + ", name=" + name + ", status=" + status + ", getId()=" + getId()
+				+ ", getCode()=" + getCode() + ", getName()=" + getName() + ", getStatus()=" + getStatus()
+				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+				+ "]";
+	}
 	
 	
 	
