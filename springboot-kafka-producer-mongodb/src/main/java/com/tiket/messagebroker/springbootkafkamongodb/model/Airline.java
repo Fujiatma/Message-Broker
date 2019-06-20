@@ -26,6 +26,7 @@ public class Airline {
 		this.name = name;
 		this.status = status;
 	}
+	
 
 	public int getId() {
 		return id;
