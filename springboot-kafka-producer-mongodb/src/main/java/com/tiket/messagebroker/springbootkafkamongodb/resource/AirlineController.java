@@ -1,7 +1,6 @@
 package com.tiket.messagebroker.springbootkafkamongodb.resource;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tiket.messagebroker.springbootkafkamongodb.model.Airline;
 import com.tiket.messagebroker.springbootkafkamongodb.model.AirlineUpdatePayLoad;
-import com.tiket.messagebroker.springbootkafkamongodb.repository.AirlineRepository;
 import com.tiket.messagebroker.springbootkafkamongodb.repository.AirlineRepositoryForKafka;
 import com.tiket.messagebroker.springbootkafkamongodb.service.AirlineService;
 
@@ -73,13 +71,12 @@ public class AirlineController {
 	
 	//publish Object to Kafka
 	@PostMapping("/publish/{id}")
-	public String post(@PathVariable("id") final int id, @RequestBody Airline airline) {
+	public String post(@PathVariable("id") final int id) {
 		kafkaTemplate.send(TOPIC, repository.findById(id));
 		
 		return "Published Successfully"; 
 	}
-	
-	
-
 
 }
+
+	
